@@ -1,13 +1,72 @@
 "use strict";
 
-const playerSelection = prompt().trim().toLowerCase();
-const computerSelection = getComputerChoice();
+let playerSelection = "";
+let computerSelection = "";
+
+
+
+game(playerSelection, computerSelection);
+
+function game(playerSelection, computerSelection) {
+    let playerScore = 0;
+    let computerScore = 0;
+    let roundResult = 0;
+    for (let i = 0; i < 5; i++) {
+        playerSelection = prompt("Rock, Paper or Scissors?").trim().toLowerCase();
+        computerSelection = getComputerChoice();
+        roundResult = playRound(playerSelection, computerSelection);
+        if (roundResult === 0) {
+            console.log("Invalid Player Input, restart game");
+            break;
+        } else {
+            if (roundResult === 1) {
+                console.log("You Win! Rock beats Scissors!");
+                playerScore += 1;
+            }
+            if (roundResult === 2) {
+                console.log("You Win! Paper beats Rock!");
+                playerScore += 1;
+            }
+            if (roundResult === 3) {
+                console.log("You Win! Scissors beats Paper!");
+                playerScore += 1;
+            }
+            if (roundResult === 4) {
+                console.log("You Lose! Rock beats Scissors!");
+                computerScore += 1;
+            }
+            if (roundResult === 5) {
+                console.log("You Lose! Paper beats Rock!")
+                computerScore += 1;
+            }
+            if (roundResult === 6) {
+                console.log("You Lose! Scissors beats Paper!");
+                computerScore += 1;
+            }
+            if (roundResult === 7) {
+                console.log("Tie!");
+                playerScore += 1;
+                computerScore += 1;
+            }
+        }
+    }
+
+    if (playerScore > computerScore) {
+        console.log(`You Win! Player Score: ${playerScore}, Computer Score: ${computerScore}`);
+    } else if (playerScore < computerScore) {
+        console.log(`You Lose! Player Score: ${playerScore}, Computer Score: ${computerScore}`);
+    } else {
+        console.log(`Tie! Player Score: ${playerScore}, Computer Score: ${computerScore}`);
+    }
+
+    console.log("Reload page to play again!");
+}
 
 // Generates random number between 0-2 and assigns the number to "rock", "paper" or "scissors"
 function getComputerChoice() {
     let choiceNum = Math.floor(Math.random() * 3);
     let choice = "";
-
+    console.log(choiceNum);
     switch(choiceNum) {
         case 0:
             choice = "rock";
@@ -39,11 +98,28 @@ function getComputerChoice() {
     7. Tie
 */
 function playRound(playerSelection, computerSelection) {
-    if (playerSelection !== "rock" || playerSelection !== "paper" || playerSelection !== "scissors") {
+    if (playerSelection !== "rock" && playerSelection !== "paper" && playerSelection !== "scissors") {
         return 0;
     } else if (playerSelection === computerSelection) {
         return 7;
     } else {
-        // enter remaining conditions here
+        if (playerSelection === "rock" && computerSelection === "scissors") {
+            return 1;
+        }
+        if (playerSelection === "paper" && computerSelection === "rock") {
+            return 2;
+        }
+        if (playerSelection === "scissors" && computerSelection === "paper") {
+            return 3;
+        }
+        if (computerSelection === "rock" && playerSelection === "scissors") {
+            return 4;
+        }
+        if (computerSelection === "paper" && playerSelection === "rock") {
+            return 5;
+        }
+        if (computerSelection === "scissors" && playerSelection === "paper") {
+            return 6;
+        }
     }
 }
