@@ -13,86 +13,72 @@ function getComputerChoice() {
     return compChoice
 }
 
-function getPlayerChoice() {
-    let playerChoice = prompt("Rock, Paper or Scissors?");
 
-    return playerChoice = playerChoice.charAt(0).toUpperCase() + playerChoice.slice(1).toLowerCase();
-}
+let playerWins = 0;
+let computerWins = 0;
+const rockButton = document.querySelector('#rock');
+const paperButton = document.querySelector('#paper');
+const scissorsButton = document.querySelector('#scissors');
+const resultsDesc = document.querySelector('#results');
 
 function playRound(playerSelection, computerSelection) {
+    let roundOutcome = 0;
     if (playerSelection == 'Rock') {
         if (computerSelection == 'Paper') {
-            return 1;
+            roundOutcome = 1;
         }
         else if (computerSelection == 'Scissors') {
-            return 2;
+            roundOutcome = 2;
         }
         else {
-            return 3;
+            roundOutcome = 3;
         }
     }
     else if (playerSelection == 'Paper') {
         if (computerSelection == 'Rock') {
-            return 4;
+            roundOutcome = 4;
         }
         else if (computerSelection == 'Scissors') {
-            return 5;
+            roundOutcome = 5;
         }
         else {
-            return 6;
+            roundOutcome = 6;
         }
     }
     else if (playerSelection == 'Scissors') {
         if (computerSelection == 'Rock') {
-            return 7;
+            roundOutcome = 7;
         }
         else if (computerSelection == 'Paper') {
-            return 8;
+            roundOutcome = 8;
         }
         else {
-            return 9;
+            roundOutcome = 9;
         }
     }
+    if (roundOutcome % 3 == 0) {
+        resultsDesc.textContent = "Tie!" + " Player Score: " + playerWins.toString() + ", Computer Score: " + computerWins.toString();
+    }
+    else if (roundOutcome % 2 == 0) {
+        playerWins++;
+        resultsDesc.textContent = "You Win! " + playerSelection + " beats " + computerSelection + "; Player Score: " + playerWins.toString() + ", Computer Score: " + computerWins.toString();
+    }
     else {
-        return 10;
+        computerWins++;
+        resultsDesc.textContent = "You Lose! " + computerSelection + " beats " + playerSelection + "; Player Score: " + playerWins.toString() + ", Computer Score: " + computerWins.toString();
+    }
+
+    if (playerWins == 5) {
+        resultsDesc.textContent = "Game Win! Congratulations! Refresh the page to start a new game!";
+    }
+    else if (computerWins == 5) {
+        resultsDesc.textContent = "Game Lose. Try again! Refresh the page to start a new game!";
+    }
+    else if (playerWins == 5 && computerWins == 5) {
+        resultsDesc.textContent = "Tie! Try again! Refresh the page to start a new game!";
     }
 }
 
-function game() {
-    let playerWins = 0;
-    let computerWins = 0;
-
-    for (let i = 0; i < 5; i++) {
-        playerRoundChoice = getPlayerChoice();
-        computerRoundChoice = getComputerChoice();
-        roundOutcome = playRound(playerRoundChoice, computerRoundChoice)
-
-        if (roundOutcome % 3 == 0) {
-            alert("Tie!");
-        }
-        else if (roundOutcome == 10) {
-            alert("Please enter valid selection! Computer wins round, starting new round...");
-            computerWins++;
-        }
-        else if (roundOutcome % 2 == 0) {
-            alert("You Win! " + playerRoundChoice + " beats " + computerRoundChoice);
-            playerWins++;
-        }
-        else {
-            alert("You Lose! " + computerRoundChoice + " beats " + playerRoundChoice);
-            computerWins++;
-        }
-    }
-
-    if (playerWins > computerWins) {
-        alert("Player wins the game!" + "\nPlayer Score: " + playerWins.toString() + "\nComputer Score: " + computerWins.toString());
-    }
-    else if (playerWins < computerWins) {
-        alert("Computer wins the game." + "\nPlayer Score: " + playerWins.toString() + "\nComputer Score: " + computerWins.toString());
-    }
-    else {
-        alert("Game Tie!");
-    }
-}
-
-game();
+rockButton.addEventListener('click',  () => playRound('Rock', getComputerChoice()), false);
+paperButton.addEventListener('click', () => playRound('Paper', getComputerChoice()), false);
+scissorsButton.addEventListener('click', () => playRound('Scissors', getComputerChoice()), false);
